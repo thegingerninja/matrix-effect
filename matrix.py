@@ -76,6 +76,10 @@ class MatrixEffect():
         while key_press < 0:
             key_press = self.stdscr.getch()
 
+            if key_press == curses.KEY_RESIZE:
+                # End loop if the screen is resized
+                break
+
             for writter in self.effect_writters:
                 writter.down_one_step()
                 if writter.finished():
