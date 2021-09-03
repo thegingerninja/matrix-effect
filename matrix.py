@@ -25,11 +25,11 @@ import random
 import time
 
 
-class MatrixEffect():
+class MatrixEffect:
     def __init__(self):
         self.stdscr = curses.initscr()
 
-        curses.curs_set(0)   # Hide the cursor
+        curses.curs_set(0)  # Hide the cursor
 
         curses.start_color()
         curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK)
@@ -65,11 +65,13 @@ class MatrixEffect():
     def write_char_at(self, row_index, col_index, character, color_pair_index):
         if self._is_lower_right_position(row_index, col_index):
             # Insert to avoid cursor overflow
-            self.stdscr.insstr(row_index, col_index, character,
-                               curses.color_pair(color_pair_index))
+            self.stdscr.insstr(
+                row_index, col_index, character, curses.color_pair(color_pair_index)
+            )
         else:
-            self.stdscr.addstr(row_index, col_index, character,
-                               curses.color_pair(color_pair_index))
+            self.stdscr.addstr(
+                row_index, col_index, character, curses.color_pair(color_pair_index)
+            )
 
     def start_loop(self):
         key_press = -1
@@ -86,19 +88,19 @@ class MatrixEffect():
                     writter.reset()
 
             self.stdscr.refresh()
-            time.sleep(.05)
+            time.sleep(0.05)
 
         curses.endwin()
 
 
-class CharsColumn():
+class CharsColumn:
     def __init__(self, screen, col_index):
         self.screen = screen
         self.screen_height = screen.get_height()
         self.col_index = col_index
         self.chars = []
         for i in range(self.screen_height):
-            self.chars.append('*')
+            self.chars.append("*")
 
     def get_height(self):
         return self.screen_height
@@ -107,16 +109,17 @@ class CharsColumn():
         if row_index >= 0 and row_index < self.screen_height:
             return self.chars[row_index]
         else:
-            return ''
+            return ""
 
     def write_char(self, row_index, character, colour_pair_index):
         if row_index >= 0 and row_index < self.screen_height:
             self.chars[row_index] = character
-            self.screen.write_char_at(row_index, self.col_index, character,
-                                      colour_pair_index)
+            self.screen.write_char_at(
+                row_index, self.col_index, character, colour_pair_index
+            )
 
 
-class EffectWritter():
+class EffectWritter:
     def __init__(self, chars_column):
         self.chars_column = chars_column
         self.length = self.get_random_length()
@@ -145,15 +148,13 @@ class EffectWritter():
         return self.last_char_row() + 1
 
     def blank_head(self):
-        self.chars_column.write_char(self.current_row, ' ', 1)
+        self.chars_column.write_char(self.current_row, " ", 1)
 
     def random_printable(self):
-        return random.choice(
-                string.digits + string.ascii_letters + string.punctuation)
+        return random.choice(string.digits + string.ascii_letters + string.punctuation)
 
     def write_random_bright_char(self):
-        self.chars_column.write_char(
-                 self.bright_char_row(), self.random_printable(), 2)
+        self.chars_column.write_char(self.bright_char_row(), self.random_printable(), 2)
 
     def darken_last_char(self):
         current_char = self.chars_column.read_char(self.last_char_row())
