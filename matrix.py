@@ -1,4 +1,4 @@
-#!/usr/bin/python3.5
+#!/usr/bin/env python3
 
 """
 To display "The Matrix(tm)" style display of flowing green random letters.
@@ -160,6 +160,10 @@ class EffectWritter():
         self.chars_column.write_char(self.last_char_row(), current_char, 1)
 
 
-if __name__ == "__main__":
+def main():
     matrix_effect = MatrixEffect()
     matrix_effect.start_loop()
+
+
+if __name__ == "__main__":
+    main()
